@@ -1,0 +1,471 @@
+finish
+/clear
+/prep7
+
+pi = 3.1415926536
+
+et,1,solid187
+
+elesizedefault=5
+elesizeksk=0.15
+esize,elesizedefault
+elesize2=2*elesizeksk
+
+L1=40
+B1=30
+L2=2*L1
+B2=B1
+L3=L1
+B3=B1
+T1=10
+T2=10
+T3=T1
+A=5
+r1=1
+r2=r1+3*elesizeksk
+r3=r2+2*elesizeksk
+r4=elesizedefault/2
+
+M1x=L1-A/cos(pi/4)-(r1*sin(pi/4)-r1*(1-cos(pi/4)))		! Schweissnahtausrundung links oben
+M1y=0
+M1z=T1+r1
+
+M2x=M1x													! Schweissnahtausrundung links unten
+M2y=M1y
+M2z=M1z-T1-2*r1
+
+M3x=L1+T2+A/cos(pi/4)+(r1*sin(pi/4)-r1*(1-cos(pi/4)))	! Schweissnahtausrundung rechts oben
+M3y=0
+M3z=T1+r1
+
+M4x=M3x													! Schweissnahtausrundung rechts unten
+M4y=M3y
+M4z=M3z-T3-2*r1
+
+M5x=L1-r1												! Schweissnahtausrundung am Querblech links oben
+M5y=0
+M5z=T1+A/cos(pi/4)+(r1*sin(pi/4)-r1*(1-cos(pi/4)))
+
+M6x=M5x													! Schweissnahtausrundung am Querblech links unten
+M6y=M1y
+M6z=-A/cos(pi/4)-(r1*sin(pi/4)-r1*(1-cos(pi/4)))
+
+M7x=L1+T2+r1											! Schweissnahtausrundung am Querblech rechts oben
+M7y=0
+M7z=M5z
+
+M8x=M7x													! Schweissnahtausrundung am Querblech rechts unten
+M8y=M7y
+M8z=M6z
+
+k,1,0,0,0					! Blech laengs links				
+k,2,L1,0,0
+k,3,L1,B1,0
+k,4,0,B1,0
+k,5,0,0,T1
+k,6,L1,0,T1
+k,7,L1,B1,T1
+k,8,0,B1,T1
+
+k,9,L1,0,-L2/2+T1/2			! Blech quer
+k,10,L1+T2,0,-L2/2+T1/2
+k,11,L1+T2,B2,-L2/2+T1/2
+k,12,L1,B2,-L2/2+T1/2
+k,13,L1,0,+L2/2+T1/2
+k,14,L1+T2,0,+L2/2+T1/2
+k,15,L1+T2,B2,+L2/2+T1/2
+k,16,L1,B2,+L2/2+T1/2
+
+k,17,L1-A/cos(pi/4),0,T1	! Schweissnaht links oben
+k,18,L1-A/cos(pi/4),B1,T1
+k,19,L1,0,T1+A/cos(pi/4)
+k,20,L1,B1,T1+A/cos(pi/4)
+
+k,21,L1-A/cos(pi/4),0,0		! Schweissnaht links unten
+k,22,L1-A/cos(pi/4),B1,0
+k,23,L1,0,-A/cos(pi/4)
+k,24,L1,B1,-A/cos(pi/4)
+
+k,25,L1+T2,0,0				! Blech laengs rechts
+k,26,L1+T2+L3,0,0
+k,27,L1+T2+L3,B3,0
+k,28,L1+T2,B3,0
+k,29,L1+T2,0,T3
+k,30,L1+T2+L3,0,T3
+k,31,L1+T2+L3,B3,T3
+k,32,L1+T2,B3,T3
+
+k,33,L1+T2+A/cos(pi/4),0,T3		! Schweissnaht rechts oben
+k,34,L1+T2+A/cos(pi/4),B3,T3
+k,35,L1+T2,0,T1+A/cos(pi/4)
+k,36,L1+T2,B3,T1+A/cos(pi/4)
+
+k,37,L1+T2+A/cos(pi/4),0,0			! Schweissnaht rechts unten
+k,38,L1+T2+A/cos(pi/4),B3,0
+k,39,L1+T2,0,-A/cos(pi/4)
+k,40,L1+T2,B3,-A/cos(pi/4)
+
+k,61,M1x,M1y,M1z	! 91 bis 98 im Python Code
+k,62,M2x,M2y,M2z
+k,63,M3x,M3y,M3z
+k,64,M4x,M4y,M4z
+
+k,65,M5x,M5y,M5z
+k,66,M6x,M6y,M6z
+k,67,M7x,M7y,M7z
+k,68,M8x,M8y,M8z
+
+v,1,2,3,4,5,6,7,8			! Blech laengs links
+v,9,10,11,12,13,14,15,16	! Blech quer
+v,25,26,27,28,29,30,31,32	! Blech laengs rechts
+v,17,6,19,18,7,20			! Schweissnaht oben links
+v,23,2,21,24,3,22			! Schweissnaht unten links
+v,29,33,35,32,34,36			! Schweissnaht oben rechts
+v,37,25,39,38,28,40			! Schweissnaht unten rechts
+vplot
+
+kwpave,61
+wprota,0,-90,0
+cylind,r1,r2,0,B1
+
+wpcsys,,0
+kwpave,62
+wprota,0,-90,0
+cylind,r1,r2,0,B1
+
+wpcsys,,0
+kwpave,63
+wprota,0,-90,0
+cylind,r1,r2,0,B1
+
+wpcsys,,0
+kwpave,64
+wprota,0,-90,0
+cylind,r1,r2,0,B1
+
+vsel,s,loc,x,M1x
+vsel,a,loc,x,M3x
+cm,kskvolu1,volu
+allsel,all
+vsbv,kskvolu1,all,,keep,keep	! makes 3 volumes out of kskvolu1
+
+!Now we have to find the right volume with which we can delete the upper half of kskvolu1
+
+vsel,s,loc,x,M1x
+vsel,a,loc,x,M3x
+vsbv,kskvolu1,all
+allsel,below,volu
+
+lsel,r,loc,x,M1x
+lsel,a,loc,x,M3x
+asll,s
+vsla,s				! should select both volumes which can now be added to one
+vadd,all
+cm,kskvolu1,volu
+
+aslv,s
+asel,r,loc,y,0
+aadd,all
+aslv,s
+asel,r,loc,y,B1
+aadd,all
+allsel,all
+
+!!!!!!!!!!!!!!!!! We must select the volumes of the weld and the horizontal sheets instead of referring to "all" in the vsbv command
+asel,s,loc,x,0
+vsla,s
+cm,bll1,volu
+allsel,all
+
+asel,s,loc,x,L1+T2+L3
+vsla,s
+cm,bll2,volu
+allsel,all
+
+lsel,s,loc,z,t1+A/cos(pi/4)
+lsel,a,loc,z,-A/cos(pi/4)
+asll,s
+asel,u,loc,x,L1
+asel,u,loc,x,L1+T2
+vsla,s
+cm,sn,volu
+allsel,all
+
+cmgrp,delegrp,bll1,bll2,sn
+vsbv,delegrp,kskvolu1, , ,keep
+allsel,all
+
+
+!!!!!!!!!!!!!!!!!! Second Cylinder
+
+wpcsys,,0
+kwpave,61
+wprota,0,-90,0
+cylind,r2,r3,0,B1
+
+wpcsys,,0
+kwpave,62
+wprota,0,-90,0
+cylind,r2,r3,0,B1
+
+wpcsys,,0
+kwpave,63
+wprota,0,-90,0
+cylind,r2,r3,0,B1
+
+wpcsys,,0
+kwpave,64
+wprota,0,-90,0
+cylind,r2,r3,0,B1
+
+vsel,s,loc,x,M1x
+vsel,a,loc,x,M3x
+cm,kskvolulinks2,volu
+allsel,all
+vsbv,kskvolulinks2,all,,keep,keep	! makes 3 volumes out of kskvolu2
+allsel,all
+
+vsel,s,loc,x,M1x
+vsel,a,loc,x,M3x
+cm,ksk2,volu
+allsel,all
+
+lsel,s,radius,,r3
+asll,s
+vsla,s
+vsel,u,loc,x,M1x
+vsel,u,loc,x,M3x
+cm,delevolu,volu
+vsel,a,loc,x,M1x
+vsel,a,loc,x,M3x
+vsbv,ksk2,delevolu
+cm,kskvolu2,volu				! cmlist contains 2 items: kskvolu1 and kskvolu2
+allsel,all
+
+!!!!!!!!!!!!!!!! We must select the weld and horizontal sheet again..
+
+asel,s,loc,x,0
+vsla,s
+cm,bll1,volu
+allsel,all
+
+asel,s,loc,x,L1+T2+L3
+vsla,s
+cm,bll2,volu
+allsel,all
+
+lsel,s,loc,z,t1+A/cos(pi/4)
+lsel,a,loc,z,-A/cos(pi/4)
+asll,s
+asel,u,loc,x,L1
+asel,u,loc,x,L1+T2
+vsla,s
+cm,sn,volu
+allsel,all
+
+cmgrp,delegrp,bll1,bll2,sn
+
+vsbv,delegrp,kskvolu2,,,keep
+allsel,all
+
+cmgrp,kskges,kskvolu1,kskvolu2	! creates new assembly for all volumes of the effective notch
+
+vsel,s,loc,x,L1+T2/2			! adds cross sheet to cmlist
+cm,blq,volu						
+allsel,all
+
+lsel,s,loc,x,0					! adds left horizontal sheet to cmlist
+asll,s							
+vsla,s
+cm,bll1,volu
+allsel,all
+
+lsel,s,loc,x,L1+T2+L3			! adds right horizontal sheet to cmlist
+asll,s							
+vsla,s
+cm,bll2,volu
+allsel,all
+
+lsel,s,loc,z,t1+A/cos(pi/4)		! adds welds to cmlist
+lsel,a,loc,z,-A/cos(pi/4)
+asll,s
+asel,u,loc,x,L1
+asel,u,loc,x,L1+T2
+vsla,s
+cm,sn,volu
+allsel,all
+
+cmgrp,abksk,bll1,bll2,blq,sn	! creates new assembly for all volumes but the effective notch volumes
+
+vglue,all						! Ansys deletes many volues because of glueing so we have to reselect all volumes.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!Reselecting all volumes because ansys is wierrrrrrd!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+lsel,s,loc,x,0					! Reselecting left horizontal sheet
+asll,s,1
+vsla,s
+cm,bll1,volu
+allsel,all
+
+lsel,s,loc,x,L1+T2+L3			! Reselecting right horizontal sheet
+asll,s,1
+vsla,s
+cm,bll2,volu
+allsel,all
+
+lsel,s,loc,z,L2/2+T1/2			! Reselecting cross sheet
+asll,s,1
+vsla,s
+cm,blq,volu
+allsel,all
+
+lsel,s,loc,z,t1+A/cos(pi/4)		!asel,s,loc,z,t1	! Reselecting weld (right is alternative)
+lsel,a,loc,z,-A/cos(pi/4)
+asll,s							!lsel,s,loc,x,l1
+asel,u,loc,x,L1					!asll,r
+asel,u,loc,x,L1+T2				!asll,r
+vsla,s							!vsel,u,volu,,bll
+cm,sn,volu
+allsel,all
+
+cmgrp,abksk,bll1,bll2,blq,sn
+
+vsel,u,volu,,abksk				! reselecting kskvolu2
+allsel,below,volu
+lsel,r,radius,,r3
+asll,r
+vsla,r
+cm,kskvolu2,volu
+allsel,all
+
+vsel,u,volu,,abksk				! reselecting kskvolu1
+vsel,u,volu,,kskvolu2
+cm,kskvolu1,volu
+allsel,all
+
+cmgrp,kskges,kskvolu1,kskvolu2
+
+cmsel,all
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!! Rounding at the cross sheet !!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+wpcsys,,0
+kwpave,65
+wprota,0,-90,0
+cylind,r1,r4,0,B1
+
+wpcsys,,0
+kwpave,66
+wprota,0,-90,0
+cylind,r1,r4,0,B1
+
+wpcsys,,0
+kwpave,67
+wprota,0,-90,0
+cylind,r1,r4,0,B1
+
+wpcsys,,0
+kwpave,68
+wprota,0,-90,0
+cylind,r1,r4,0,B1
+
+vsel,s,loc,x,M5x
+vsel,a,loc,x,M7x
+cm,roundingblq,volu
+allsel,all
+vsbv,roundingblq,all,,keep,keep	! makes 3 volumes out of roundingblq
+
+!Now we have to find the right volume with which we can delete the upper half of roundingblq
+
+lsel,s,radius,,r4
+asll,s
+vsla,s
+vsbv,roundingblq,all
+allsel,below,volu		! roundinblq should be deleted
+
+lsel,r,loc,z,M5z
+lsel,a,loc,z,M6z
+asll,s
+vsla,s					! should select both volumes which can now be added to one
+vadd,all
+cm,roundingblq,volu
+
+aslv,s
+asel,r,loc,y,0
+aadd,all
+aslv,s
+asel,r,loc,y,B1
+aadd,all
+allsel,all
+
+vsbv,abksk,roundingblq,,,keep	! Deletes roundingblq, sn and blq
+vglue,all
+
+!!!!!!!!!!!!!Reselecting deleted volumes
+
+asel,s,loc,z,t1/2-l2/2		! Adding blq to abksk
+vsla,s
+cm,blq,volu
+cmedit,abksk,add,blq
+allsel,all
+
+lsel,s,loc,z,M5z
+lsel,a,loc,z,M6z
+asll,s
+vsla,s
+vsel,u,volu,,abksk
+cm,roundingblq,volu
+allsel,all
+
+vsel,u,volu,,abksk
+vsel,u,volu,,kskges
+vsel,u,volu,,roundingblq
+cm,sn,volu
+allsel,all
+cmsel,all
+cmedit,abksk,add,sn
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MESHING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+cmsel,s,kskvolu1		! Meshing for inner ksk-ring
+allsel,below,volu
+kesize,all,elesizeksk
+lesize,all,elesizeksk
+aesize,all,elesizeksk
+vmesh,all
+allsel,all
+
+cmsel,s,kskvolu2		! Meshing for outer ksk-ring
+allsel,below,volu
+kesize,all,elesize2
+lesize,all,elesize2
+aesize,all,elesize2
+vmesh,all
+allsel,all
+
+cmsel,s,roundingblq		! Meshing for roundings cross sheet
+allsel,below,volu
+kesize,all,r4
+lesize,all,r4
+aesize,all,r4
+vmesh,all
+allsel,all
+
+cmsel,s,abksk			! Meshing of remaining volumes
+allsel,below,volu
+kesize,all,elesizedefault
+lesize,all,elesizedefault
+aesize,all,elesizedefault
+vmesh,all
+allsel,all
+
+/angle,1,-45,xs
+/angle,1,45,zm,1
+/zoom,1,off
